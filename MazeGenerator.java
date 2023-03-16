@@ -14,6 +14,7 @@ public class MazeGenerator {
         loopNumber = loopNumber - 20;//reset loops for drawing fake paths
         stage = stage +2; //changes the color
         drawDecoys();
+        drawDecoys();
 
 
     }
@@ -36,8 +37,8 @@ public class MazeGenerator {
         }
     }
     private int loopNumber = 0;
-    int min = rows * cols / 20;  // five percent of board
-    int max = rows * cols / 5;  //twenty percent of board
+    int min = rows * cols / 10;  // five percent of board
+    int max = rows * cols / 2;  //twenty percent of board
     int loopMax = min +(int)(Math.random()*max);
     int previous = 0;
     int lastLoop = 0;
@@ -53,9 +54,8 @@ public class MazeGenerator {
         }else{
             lastLoop = loopNumber;
         }
-        System.out.println(loopNumber+"  "+loopMax);
-        if(grid[c][r]==0){
-            grid[c][r] = 1+stage;
+        if(grid[r][c]==0){
+            grid[r][c] = 1+stage;
             history.add(r*45+c);
             loopNumber++;
         }
@@ -80,20 +80,16 @@ public class MazeGenerator {
                 dx = -1;
                 break;
         }
-        int newX = r + dy;
-        int newY = c + dx;
+        int newX = c + dx;
+        int newY = r + dy;
 
         if(newX<0){newX = 1;}
         if(newY<0){newY = 1;}
         if(newX>=cols){newX = cols - 1;}
         if(newY >= rows){newY = rows - 1;}
-
+        System.out.println(dx+ "    "+dy);
         if(loopNumber < loopMax){
-            if(grid[newY][newX]==0) {
-                createSolution(newY, newX);
-
-            }
-            else{
+            if(grid[newY][newX] !=0 ) {
                 int rx = history.size();
                 int node = history.get((int) (Math.random() * rx));
 
@@ -106,16 +102,21 @@ public class MazeGenerator {
 
                 createSolution(cc,rc);
 
+
+
+            }
+            else{
+                createSolution(newX, newY);
             }
         }else {
-            grid[c][r] = 2;
+            grid[r][c] = 2;
         }
     }
 
     public void drawGrid(){
         for(int[] r : grid){
             for(int c : r){
-               // System.out.print(c);
+                // System.out.print(c);
             }
             //System.out.println();
         }
